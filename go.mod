@@ -1,3 +1,5 @@
 module github.com/ptk1729/page-monitor
 
-go 1.21.4
+go 1.23.0
+
+toolchain go1.24.9
