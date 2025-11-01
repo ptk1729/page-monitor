@@ -7,13 +7,10 @@ import (
 )
 
 func main() {
-	startTime := time.Now()
-
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		elapsed := time.Since(startTime).Seconds()
-		cycle := int(elapsed) % 60
+		sec := time.Now().Second()
 
-		if cycle >= 50 {
+		if sec >= 50 && sec <= 59 {
 			w.WriteHeader(http.StatusNotFound)
 			fmt.Fprintln(w, "404 - Not Found (temporary)")
 			return
