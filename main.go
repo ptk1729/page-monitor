@@ -15,7 +15,7 @@ func main() {
 	failureThreshold := os.Getenv("FAILURE_THRESHOLD")
 
 	if url == "" || interval == "" || failureThreshold == "" {
-		log.Fatal("URL and INTERVAL environment variables are required")
+		log.Fatal("URL, INTERVAL, and FAILURE_THRESHOLD environment variables are required")
 	}
 
 	failureThresholdInt, err := strconv.Atoi(failureThreshold)
