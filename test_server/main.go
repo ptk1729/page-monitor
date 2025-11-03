@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"math/rand/v2"
 	"net/http"
 	"os"
 	"time"
@@ -29,11 +30,11 @@ func renderStatus(w http.ResponseWriter, status int) {
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		sec := time.Now().Second()
-
-		// if sec >= 40 && sec <= 43 {
-		// 	renderStatus(w, http.StatusInternalServerError)
-		// 	return
-		// }
+		randomNumber := rand.IntN(100) + 1
+		if randomNumber < 1 {
+			renderStatus(w, http.StatusInternalServerError)
+			return
+		}
 
 		if sec == 10 && sec <= 20 {
 			time.Sleep(1 * time.Second)

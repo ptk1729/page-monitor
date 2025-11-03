@@ -4,49 +4,67 @@ A tool to monitor a given webpage
 
 ## Requirements
 
-- Go 1.23 or later
+* Go 1.23+
+* Prometheus
+* Grafana
 
-## Usage
+## Setup
 
-### Config
+### 1. Configure
 
 Set the following environment variables (See Makefile):
 - `URL`: The URL to monitor
 - `INTERVAL`: Check interval (e.g., `5s`, `1m`)
-- `FAILURE_THRESHOLD`: Number of consecutive failures before outage is reported
 
-### Running with Makefile
+Use the Makefile:
 
-1. Run the mock server (skip in case you want to monitor another url)
-```bash
-make run-test-server
-```
-
-2. Run the monitor:
 ```bash
 make run
 ```
 
-### Running directly
+Or run directly:
 
 ```bash
-URL=http://example.com INTERVAL=10s FAILURE_THRESHOLD=5 go run main.go
+URL=http://example.com INTERVAL=10s go run main.go
 ```
 
-### Grafana Dashboard
+For testing, the small server can be used
 
-1. Run Prometheus so it scrapes the probe metrics (default endpoint: `http://localhost:2112/metrics`).
-2. Open Grafana -> Dashboards -> Import.
-3. Upload `grafana/page-monitor-dashboard.json` and select your Prometheus datasource when prompted.
-4. The dashboard shows availability, response times, status codes, and check volume in real time.
+Run (using make file)
+```bash
+make run-test-server
+```
 
-### Building
+or
+```bash
+go run test_server/main.go
+```
+### 3. Prometheus
+
+Start Prometheus with:
+
+```bash
+--config.file=prometheus.yml --web.enable-lifecycle
+```
+
+Metrics are at: [http://localhost:2112/metrics](http://localhost:2112/metrics)
+
+### 4. Grafana
+
+1. Open Grafana, import dashboard json
+2. Upload `grafana/page-monitor-dashboard.json`
+3. Select your Prometheus datasource
+
+You’ll see:
+
+* Availability (1m, 5m, 1h)
+* Response time (avg & p95)
+* HTTP status
+* Page loads over time
+
+### 5. Build
 
 ```bash
 make build
-```
-
-Then run the binary:
-```bash
-URL=http://example.com INTERVAL=10s FAILURE_THRESHOLD=5 ./bin/page-monitor
+./bin/page-monitor
 ```

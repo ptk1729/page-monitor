@@ -77,7 +77,9 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "avg_over_time(webpage_availability_percent[1m])",
+          "editorMode": "code",
+          "expr": "(increase(webpage_success_checks[1m]) / increase(webpage_total_checks[1m])) * 100",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -143,7 +145,9 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "avg_over_time(webpage_availability_percent[5m])",
+          "editorMode": "code",
+          "expr": "(increase(webpage_success_checks[5m]) / increase(webpage_total_checks[5m])) * 100",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -209,7 +213,9 @@
       "pluginVersion": "12.2.1",
       "targets": [
         {
-          "expr": "avg_over_time(webpage_availability_percent[1h])",
+          "editorMode": "code",
+          "expr": "(increase(webpage_success_checks[1h]) / increase(webpage_total_checks[1h])) * 100",
+          "range": true,
           "refId": "A"
         }
       ],
@@ -398,10 +404,48 @@
       ],
       "title": "Page Load Time (Average over last 5 min)",
       "type": "stat"
-    }
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "ef31c7crsuuwwc"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "drawStyle": "bars",
+            "barAlignment": 0,
+            "fillOpacity": 75,
+            "gradientMode": "none",
+            "showPoints": "never",
+            "lineWidth": 0,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 12 },
+      "id": 7,
+      "options": {
+        "legend": { "showLegend": false },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "12.2.1",
+      "targets": [
+        {
+          "expr": "increase(webpage_success_checks[1m])",
+          "legendFormat": "Page Loads per Minute",
+          "refId": "A"
+        }
+      ],
+      "title": "Page Loads Over Time",
+      "type": "timeseries"
+    }   
   ],
   "preload": false,
-  "refresh": "5s",
+  "refresh": "30s",
   "schemaVersion": 42,
   "tags": [
     "page-monitor"
@@ -441,5 +485,5 @@
   "timezone": "",
   "title": "Page Monitor Overview (2-min Window)",
   "uid": "page-monitor-overview",
-  "version": 5
+  "version": 8
 }
