@@ -33,6 +33,13 @@ make run
 URL=http://example.com INTERVAL=10s FAILURE_THRESHOLD=5 go run main.go
 ```
 
+### Grafana Dashboard
+
+1. Run Prometheus so it scrapes the probe metrics (default endpoint: `http://localhost:2112/metrics`).
+2. Open Grafana -> Dashboards -> Import.
+3. Upload `grafana/page-monitor-dashboard.json` and select your Prometheus datasource when prompted.
+4. The dashboard shows availability, response times, status codes, and check volume in real time.
+
 ### Building
 
 ```bash

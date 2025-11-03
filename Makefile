@@ -1,5 +1,5 @@
-URL ?= http://localhost:8080
-INTERVAL ?= 5s
+URL ?= https://google.com
+INTERVAL ?= 1s
 FAILURE_THRESHOLD ?= 3
 
 build:

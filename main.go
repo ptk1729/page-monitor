@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"os"
-	"strconv"
 	"time"
 
 	"github.com/ptk1729/page-monitor/probe"
@@ -18,15 +17,15 @@ func main() {
 		log.Fatal("URL, INTERVAL, and FAILURE_THRESHOLD environment variables are required")
 	}
 
-	failureThresholdInt, err := strconv.Atoi(failureThreshold)
-	if err != nil {
-		log.Fatalf("Invalid FAILURE_THRESHOLD: %v", err)
-	}
+	// failureThresholdInt, err := strconv.Atoi(failureThreshold)
+	// if err != nil {
+	// 	log.Fatalf("Invalid FAILURE_THRESHOLD: %v", err)
+	// }
 
 	intervalDuration, err := time.ParseDuration(interval)
 	if err != nil {
 		log.Fatalf("Invalid INTERVAL: %v", err)
 	}
 
-	probe.RunProbe(url, intervalDuration, failureThresholdInt)
+	probe.RunProbe(url, intervalDuration)
 }

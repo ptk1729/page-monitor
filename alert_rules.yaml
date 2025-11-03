@@ -1,0 +1,11 @@
+groups:
+- name: page-monitor.rules
+  rules:
+  - alert: AvailabilityLow
+    expr: (increase(webpage_success_checks[5m]) / increase(webpage_total_checks[5m])) * 100 < 95
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Availability below 95% for last 5m"
+      description: "Target {{ $labels.instance }} has availability {{ printf \"%.2f\" $value }}%"
