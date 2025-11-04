@@ -46,10 +46,32 @@ Start Prometheus with:
 ```bash
 --config.file=prometheus.yml --web.enable-lifecycle
 ```
+example:
+```bash
+docker run -d \
+  --name prometheus \
+  -p 9090:9090 \
+  -v $(pwd)/prometheus.yml:/etc/prometheus/prometheus.yml \
+  -v $(pwd)/alert_rules.yml:/etc/prometheus/alert_rules.yml \
+  prom/prometheus \
+  --config.file=/etc/prometheus/prometheus.yml \
+  --web.enable-lifecycle
+```
+
 
 Metrics are at: [http://localhost:2112/metrics](http://localhost:2112/metrics)
 
 ### 4. Grafana
+
+Run locally
+```bash
+grafana server path/to/conf
+```
+
+or with docker
+```bash
+docker run -d -p 3000:3000 grafana/grafana 
+```
 
 1. Open Grafana, import dashboard json
 2. Upload `grafana/page-monitor-dashboard.json`
@@ -68,3 +90,17 @@ You’ll see:
 make build
 ./bin/page-monitor
 ```
+
+## Design
+
+Given a monitoring target, a webpage, this tool probes it and pushes metrics, then scraped by prometheus.
+
+A status code <500 is considered success (e.g., 401, 404 are treated as available).
+
+Requests timing out are considered to be an error.
+
+Availability is computed from success vs total checks within a time window (e.g., 2 m, 5 m).
+
+Alerts fire when availability < 95 % over the last 2 minutes.
+
+Grafana connects to the same Prometheus datasource for visualization.
